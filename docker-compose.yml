@@ -375,8 +375,8 @@ services:
         until ping rspamd -c1 > /dev/null; do sleep 1; done &&
         exec nginx -g 'daemon off;'"
       environment:
-        - HTTPS_PORT=${HTTPS_PORT:-2567}
-        - HTTP_PORT=${HTTP_PORT:-2568}
+        - HTTPS_PORT=${HTTPS_PORT:-8443}
+        - HTTP_PORT=${HTTP_PORT:-8080}
         - MAILCOW_HOSTNAME=${MAILCOW_HOSTNAME}
         - IPV4_NETWORK=${IPV4_NETWORK:-172.22.1}
         - TZ=${TZ}
@@ -390,6 +390,9 @@ services:
         - ./data/conf/nginx/:/etc/nginx/conf.d/:z
         - ./data/conf/rspamd/meta_exporter:/meta_exporter:ro,z
         - sogo-web-vol-1:/usr/lib/GNUstep/SOGo/
+      ports:
+        - "${HTTPS_BIND:-}:${HTTPS_PORT:-8443}:${HTTPS_PORT:-443}"
+        - "${HTTP_BIND:-}:${HTTP_PORT:-8080}:${HTTP_PORT:-80}"
       restart: always
       networks:
         mailcow-network:
@@ -502,7 +505,7 @@ services:
         - SKIP_CLAMD=${SKIP_CLAMD:-n}
         - SKIP_LETS_ENCRYPT=${SKIP_LETS_ENCRYPT:-n}
         - SKIP_SOGO=${SKIP_SOGO:-n}
-        - HTTPS_PORT=${HTTPS_PORT:-443}
+        - HTTPS_PORT=${HTTPS_PORT:-8443}
         - REDIS_SLAVEOF_IP=${REDIS_SLAVEOF_IP:-}
         - REDIS_SLAVEOF_PORT=${REDIS_SLAVEOF_PORT:-}
         - EXTERNAL_CHECKS_THRESHOLD=${EXTERNAL_CHECKS_THRESHOLD:-1}
