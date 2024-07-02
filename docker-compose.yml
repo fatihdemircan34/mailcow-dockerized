@@ -375,8 +375,8 @@ services:
         until ping rspamd -c1 > /dev/null; do sleep 1; done &&
         exec nginx -g 'daemon off;'"
       environment:
-        - HTTPS_PORT=${HTTPS_PORT:-443}
-        - HTTP_PORT=${HTTP_PORT:-80}
+        - HTTPS_PORT=${HTTPS_PORT:-2567}
+        - HTTP_PORT=${HTTP_PORT:-2568}
         - MAILCOW_HOSTNAME=${MAILCOW_HOSTNAME}
         - IPV4_NETWORK=${IPV4_NETWORK:-172.22.1}
         - TZ=${TZ}
@@ -391,8 +391,8 @@ services:
         - ./data/conf/rspamd/meta_exporter:/meta_exporter:ro,z
         - sogo-web-vol-1:/usr/lib/GNUstep/SOGo/
       ports:
-        - "${HTTPS_BIND:-}:${HTTPS_PORT:-443}:${HTTPS_PORT:-443}"
-        - "${HTTP_BIND:-}:${HTTP_PORT:-80}:${HTTP_PORT:-80}"
+        - "${HTTPS_BIND:-}:${HTTPS_PORT:-2567}:${HTTPS_PORT:-433}"
+        - "${HTTP_BIND:-}:${HTTP_PORT:-2568}:${HTTP_PORT:-80}"
       restart: always
       networks:
         mailcow-network:
